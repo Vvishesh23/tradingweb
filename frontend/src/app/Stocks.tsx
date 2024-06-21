@@ -1,4 +1,3 @@
-'use client';
 import React, { useState, useEffect } from 'react';
 
 const stockSymbols = {
@@ -31,19 +30,19 @@ const Stocks = () => {
           console.log(data); // Handle fetched data as needed
         })
         .catch(error => {
-          setError('Error fetching stock data');
+          setError('Error fetching stock data. Please try again later.');
           console.error('Error fetching stock data:', error);
         });
     }
   }, [symbol]);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedStock = e.target.value;
     setSelectedStock(selectedStock);
     getSymbol(selectedStock);
   };
 
-  const getSymbol = (selectedStock) => {
+  const getSymbol = (selectedStock: string) => {
     if (stockSymbols[selectedStock]) {
       setSymbol(stockSymbols[selectedStock]);
     }
@@ -54,18 +53,16 @@ const Stocks = () => {
       <div className='mt-20'>
         <h1 className='text-center text-2xl'>Please Select Your Stock</h1>
       </div>
-      <div className="flex flex-row justify-center mt-8 ">
-        <select className="block appearance-none w-48 bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8  rounded shadow leading-tight focus:outline-none focus:shadow-outline" onChange={handleChange} value={selectedStock}>
+      <div className="flex flex-row justify-center mt-8">
+        <select className="block appearance-none w-48 bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline" onChange={handleChange} value={selectedStock}>
           {Object.keys(stockSymbols).map((stockName) => (
             <option key={stockName} value={stockName}>{stockName}</option>
           ))}
         </select>
-
         <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
           <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9 9l-5 5 1.414 1.414L9 11.828l4.586 4.586L15 14z"/></svg>
         </div>
       </div>
-      
       {error && <p className="text-red-500 text-center mt-4">{error}</p>}
     </>
   );
